@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatiza con Rocketbot</title>
+  <meta name="description" content="Transforma tu negocio con Rocketbot. Calcula tu ROI y optimiza tus procesos.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(35, 31, 32, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+    header.scrolled {
+      background: #231F20;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+    }
+    nav ul li {
+      margin: 0 20px;
+    }
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #FFD700;
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero video.background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-size: 4em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease;
+    }
+    .hero p {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease 0.3s;
+      animation-fill-mode: both;
+    }
+    .video-container {
+      position: relative;
+      width: 70%;
+      max-width: 800px;
+      padding-bottom: 39.375%;
+      margin: 0 auto;
+      animation: fadeInUp 1s ease 0.6s;
+      animation-fill-mode: both;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .hero .scroll-btn {
+      background: #FFD700;
+      color: #231F20;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: fadeInUp 1s ease 0.9s;
+      animation-fill-mode: both;
+      margin-top: 20px;
+    }
+    .hero .scroll-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .roi-calculator {
+      padding: 80px 0;
+      background: #ffffff;
+      color: #231F20;
+    }
+    .roi-calculator h2 {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #A6192E;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+    .form-group label {
+      display: block;
+      font-size: 1em;
+      color: #231F20;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .input-container {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      height: 50px;
+      transition: all 0.2s ease;
+    }
+    .input-container:hover, .input-container:focus-within {
+      border-color: #A6192E;
+      box-shadow: 0 0 0 3px rgba(166, 25, 46, 0.1);
+    }
+    .input-container i {
+      width: 40px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #A6192E;
+      font-size: 1.2em;
+    }
+    input, select {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      font-size: 1em;
+      background: transparent;
+      outline: none;
+      color: #231F20;
+    }
+    input::placeholder {
+      color: #666A6D;
+      opacity: 0.8;
+    }
+    .systems-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .system-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .system-card:hover {
+      background-color: rgba(166, 25, 46, 0.05);
+    }
+    .system-card input[type="checkbox"] {
+      display: none;
+    }
+    .system-card i {
+      font-size: 1.5em;
+      color: #A6192E;
+      margin-bottom: 8px;
+    }
+    .system-card span {
+      font-size: 0.95em;
+      font-weight: 600;
+      color: #231F20;
+      text-align: center;
+    }
+    .system-card .check-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 1em;
+      color: #A6192E;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .system-card input[type="checkbox"]:checked ~ .check-icon {
+      opacity: 1;
+    }
+    button {
+      background: #A6192E;
+      color: #ffffff;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 40px auto 0;
+    }
+    button:hover {
+      background: #231F20;
+      transform: translateY(-3px);
+    }
+    .results-container {
+      margin-top: 50px;
+      padding: 30px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .results-container h3 {
+      font-size: 1.8em;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #A6192E;
+    }
+    .process-list div {
+      padding: 12px 16px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95em;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .process-list div:hover {
+      background-color: #f0f0f0;
+    }
+    .quadrant-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 60px auto;
+      background: #1a1a2e; /* Fondo más oscuro y uniforme */
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .quadrant-container::before,
+    .quadrant-container::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ccc 20%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+    .quadrant-container::before {
+      top: 10px;
+      left: 10px;
+    }
+    .quadrant-container::after {
+      bottom: 10px;
+      right: 10px;
+    }
+    .quadrant {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+    .quadrant-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      color: #ffffff; /* Texto blanco puro */
+      opacity: 0.9;
+      text-align: center;
+      border-radius: 8px;
+      margin: 4px;
+      padding: 10px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    }
+    .quadrant-label:nth-child(1) { /* Cometa */
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><path d="M0 50 L50 0" stroke="%234d94ff" stroke-width="0.5" fill="none"/></svg>'), rgba(255, 255, 255, 0.05);
+      background-repeat: repeat;
+    }
+    .quadrant-label:nth-child(2) { /* Nebulosa */
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><circle cx="25" cy="25" r="5" fill="%2324243e"/></svg>'), rgba(255, 255, 255, 0.05);
+      background-repeat: repeat;
+    }
+    .quadrant-label:nth-child(3) { /* Planeta Enano */
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><circle cx="25" cy="25" r="1" fill="%23666A6D"/></svg>'), rgba(255, 255, 255, 0.05);
+      background-repeat: repeat;
+    }
+    .quadrant-label:nth-child(4) { /* Asteroide */
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><path d="M0 0 L50 50" stroke="%231a1a2e" stroke-width="0.5" fill="none"/></svg>'), rgba(255, 255, 255, 0.05);
+      background-repeat: repeat;
+    }
+    .quadrant-description {
+      font-size: 0.7em;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    .axis-label-y.top, .axis-label-y.bottom {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff; /* Texto blanco puro */
+      font-weight: 700;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+      padding: 5px 10px;
+    }
+    .axis-label-y.top {
+      top: -40px;
+    }
+    .axis-label-y.bottom {
+      bottom: -40px;
+    }
+    .axis-label-x.left, .axis-label-x.right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ffffff; /* Texto blanco puro */
+      font-weight: 700;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+      padding: 5px 10px;
+      max-width: 120px;
+    }
+    .axis-label-x.left {
+      left: -40%; /* Ajustado para evitar solapamiento */
+      text-align: right;
+    }
+    .axis-label-x.right {
+      right: -40%; /* Ajustado para evitar solapamiento */
+      text-align: left;
+    }
+    .dots-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+    .process-dot {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.3));
+    }
+    .process-dot:hover {
+      transform: scale(1.2);
+    }
+    .process-dot:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background-color: #231F20;
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      white-space: nowrap;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+    .process-dot.near-left:hover::after {
+      left: 100%;
+      transform: translateX(-10%);
+    }
+    .process-dot.near-right:hover::after {
+      left: 0;
+      transform: translateX(-90%);
+    }
+    .process-dot.near-top:hover::after {
+      top: auto;
+      bottom: -50px;
+    }
+    .process-dot::after {
+      opacity: 0;
+    }
+    .quadrant-message {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+      color: #ffffff;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      animation: slideIn 0.5s ease forwards, fadeOut 0.5s ease 4.5s forwards;
+    }
+    .reviews-section {
+      padding: 80px 0;
+      background: #231F20;
+      color: #ffffff;
+      position: relative;
+    }
+    .reviews-section h2 {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #FFD700;
+    }
+    .reviews-carousel {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      overflow-x: auto;
+      padding: 20px 0;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+      z-index: 1;
+    }
+    .reviews-carousel::-webkit-scrollbar {
+      height: 8px;
+    }
+    .reviews-carousel::-webkit-scrollbar-thumb {
+      background: #FFD700;
+      border-radius: 4px;
+    }
+    .reviews-carousel::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    .review-card {
+      background: #ffffff;
+      color: #231F20;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+    .review-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 3px solid #FFD700;
+      object-fit: cover;
+    }
+    .review-card h3 {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #231F20;
+    }
+    .review-card .industry, .review-card .process {
+      font-size: 0.9em;
+      opacity: 0.8;
+      margin-bottom: 10px;
+      color: #A6192E;
+    }
+    .review-card .stars {
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .review-card .stars i {
+      color: #FFD700;
+      font-size: 1.2em;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+    .review-card .stars i:hover {
+      opacity: 1;
+    }
+    .review-card p {
+      font-size: 1em;
+      font-style: italic;
+      color: #231F20;
+      opacity: 0.9;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #A6192E, #231F20);
+      text-align: center;
+      color: #ffffff;
+    }
+    .cta-section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #FFD700;
+    }
+    .schedule-btn {
+      background: #FFD700;
+      color: #231F20;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .schedule-btn:hover {
+      background: #ffffff;
+      color: #A6192E;
+    }
+    footer {
+      background: #231F20;
+      color: #ffffff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .social-icons a {
+      color: #ffffff;
+      margin: 0 10px;
+      font-size: 1.5em;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #FFD700;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5em; }
+      .hero p { font-size: 1.2em; }
+      .video-container { width: 90%; padding-bottom: 50.625%; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full-width { grid-column: span 1; }
+      .reviews-carousel { gap: 15px; }
+      .review-card { width: 250px; }
+      .quadrant-container { width: 300px; height: 300px; }
+      .axis-label-x.left { left: -50%; } /* Ajustado para pantallas pequeñas */
+      .axis-label-x.right { right: -50%; } /* Ajustado para pantallas pequeñas */
+      .axis-label-y.top { top: -30px; }
+      .axis-label-y.bottom { bottom: -30px; }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#hero">Inicio</a></li>
+        <li><a href="#roi-calculator">Calculadora ROI</a></li>
+        <li><a href="#reviews">Reseñas</a></li>
+        <li><a href="#cta">Agendar Reunión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="hero" id="hero">
+    <video autoplay muted loop class="background-video">
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      Tu navegador no soporta videos.
+    </video>
+    <div class="hero-content">
+      <h1 id="hero-title">Transforma tu negocio hoy!</h1>
+      <p id="hero-subtitle">Lleva tu empresa a nuevas alturas con Rocketbot</p>
+      <div class="video-container">
+        <iframe id="hero-video" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <button class="scroll-btn" onclick="scrollToSection('roi-calculator')">Explora tu ROI</button>
+    </div>
+  </section>
+  <section class="roi-calculator" id="roi-calculator" data-aos="fade-up">
+    <div class="container">
+      <h2>Calcula tu ROI</h2>
+      <form id="roi-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="process-name">Nombre del proceso</label>
+            <div class="input-container">
+              <i class="fas fa-tag"></i>
+              <input type="text" id="process-name" placeholder="Ej: Facturación" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="process-type">Tipo de proceso</label>
+            <div class="input-container">
+              <i class="fas fa-list"></i>
+              <select id="process-type">
+                <option value="finanzas">Finanzas</option>
+                <option value="rrhh">Recursos Humanos</option>
+                <option value="atencion">Atención al Cliente</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="hours">Horas diarias por persona</label>
+            <div class="input-container">
+              <i class="fas fa-clock"></i>
+              <input type="number" id="hours" placeholder="Ej: 8" min="0" step="0.1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cost">Costo por hora ($)</label>
+            <div class="input-container">
+              <i class="fas fa-dollar-sign"></i>
+              <input type="number" id="cost" placeholder="Ej: 20" min="0" step="0.01" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="people">Personas ejecutando</label>
+            <div class="input-container">
+              <i class="fas fa-users"></i>
+              <input type="number" id="people" placeholder="Ej: 2" min="1" step="1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exceptions">Excepciones mensuales</label>
+            <div class="input-container">
+              <i class="fas fa-exclamation-triangle"></i>
+              <input type="number" id="exceptions" placeholder="Ej: 5" min="0" step="1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="error">Error humano (%)</label>
+            <div class="input-container">
+              <i class="fas fa-percentage"></i>
+              <input type="number" id="error" placeholder="Ej: 5" min="0" max="100" step="0.1" required>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>Sistemas utilizados</label>
+            <div class="systems-container">
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="excel">
+                <i class="fas fa-table"></i>
+                <span>Excel</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="erp">
+                <i class="fas fa-server"></i>
+                <span>ERP</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="crm">
+                <i class="fas fa-address-book"></i>
+                <span>CRM</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="remote">
+                <i class="fas fa-desktop"></i>
+                <span>Escritorio Remoto</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="email">
+                <i class="fas fa-envelope"></i>
+                <span>Email</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="database">
+                <i class="fas fa-database"></i>
+                <span>Base de Datos</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="cloud">
+                <i class="fas fa-cloud"></i>
+                <span>Nube</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+              <label class="system-card">
+                <input type="checkbox" name="systems" value="api">
+                <i class="fas fa-plug"></i>
+                <span>API</span>
+                <i class="fas fa-check check-icon"></i>
+              </label>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="add-process">Agregar Proceso</button>
+      </form>
+      <div id="results" class="results-container">
+        <h3>Procesos Analizados</h3>
+        <div id="process-list">Añade un proceso para comenzar.</div>
+        <div id="quadrant-message" class="quadrant-message"></div>
+        <div class="quadrant-container">
+          <div class="quadrant">
+            <div class="quadrant-label">
+              Cometa
+              <span class="quadrant-description">Alto impacto, Baja complejidad</span>
+            </div>
+            <div class="quadrant-label">
+              Nebulosa
+              <span class="quadrant-description">Alto impacto, Alta complejidad</span>
+            </div>
+            <div class="quadrant-label">
+              Planeta Enano
+              <span class="quadrant-description">Bajo impacto, Baja complejidad</span>
+            </div>
+            <div class="quadrant-label">
+              Asteroide
+              <span class="quadrant-description">Bajo impacto, Alta complejidad</span>
+            </div>
+          </div>
+          <div class="axis-label-y top">Mayor Impacto</div>
+          <div class="axis-label-y bottom">Menor Impacto</div>
+          <div class="axis-label-x left">Más Sencillo</div>
+          <div class="axis-label-x right">Más Complejo</div>
+          <div id="dots" class="dots-container"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <h2>Lo que Dicen Nuestros Clientes</h2>
+      <div class="reviews-carousel">
+        <div class="review-card" data-aos="fade-up" data-aos-delay="100">
+          <img src="https://picsum.photos/80" alt="Cecilia">
+          <h3>Cecilia - Maderas García Varona</h3>
+          <div class="industry">Sector Maderero</div>
+          <div class="process">Proceso: Entrada de facturas</div>
+          <div class="stars">
+            <i class="fas fa-star" style="--star-delay: 1;"></i>
+            <i class="fas fa-star" style="--star-delay: 2;"></i>
+            <i class="fas fa-star" style="--star-delay: 3;"></i>
+            <i class="fas fa-star" style="--star-delay: 4;"></i>
+            <i class="fas fa-star" style="--star-delay: 5;"></i>
+          </div>
+          <p>"Resultados impresionantes en poco tiempo."</p>
+        </div>
+        <div class="review-card" data-aos="fade-up" data-aos-delay="200">
+          <img src="https://picsum.photos/80" alt="Rocío">
+          <h3>Rocío - Polín et Moi</h3>
+          <div class="industry">Sector E-commerce</div>
+          <div class="process">Proceso: Devoluciones</div>
+          <div class="stars">
+            <i class="fas fa-star" style="--star-delay: 1;"></i>
+            <i class="fas fa-star" style="--star-delay: 2;"></i>
+            <i class="fas fa-star" style="--star-delay: 3;"></i>
+            <i class="fas fa-star" style="--star-delay: 4;"></i>
+            <i class="fas fa-star" style="--star-delay: 5;"></i>
+          </div>
+          <p>"Rocketbot transformó nuestra eficiencia operativa."</p>
+        </div>
+        <div class="review-card" data-aos="fade-up" data-aos-delay="300">
+          <img src="https://picsum.photos/80" alt="Ana">
+          <h3>Ana - DAPEAL</h3>
+          <div class="industry">Sector Logística</div>
+          <div class="process">Proceso: Gestión de envíos</div>
+          <div class="stars">
+            <i class="fas fa-star" style="--star-delay: 1;"></i>
+            <i class="fas fa-star" style="--star-delay: 2;"></i>
+            <i class="fas fa-star" style="--star-delay: 3;"></i>
+            <i class="fas fa-star" style="--star-delay: 4;"></i>
+            <i class="fas fa-star" style="--star-delay: 5;"></i>
+          </div>
+          <p>"Automatización sin complicaciones."</p>
+        </div>
+        <div class="review-card" data-aos="fade-up" data-aos-delay="400">
+          <img src="https://picsum.photos/80" alt="Luis">
+          <h3>Luis - Comismar</h3>
+          <div class="industry">Sector Seguros</div>
+          <div class="process">Proceso: Procesamiento de pólizas</div>
+          <div class="stars">
+            <i class="fas fa-star" style="--star-delay: 1;"></i>
+            <i class="fas fa-star" style="--star-delay: 2;"></i>
+            <i class="fas fa-star" style="--star-delay: 3;"></i>
+            <i class="fas fa-star" style="--star-delay: 4;"></i>
+            <i class="fas fa-star" style="--star-delay: 5;"></i>
+          </div>
+          <p>"Un cambio radical en nuestra productividad."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="cta-section" id="cta" data-aos="fade-up">
+    <div class="container">
+      <h2>¡Prepárate para el Despegue!</h2>
+      <button class="schedule-btn">Agendar Reunión</button>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <p>© 2023 Rocketbot. Todos los derechos reservados.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // Personalización basada en parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientName = urlParams.get('name') || 'Cliente'; // Valor por defecto si no se proporciona
+    const companyName = urlParams.get('company') || 'tu empresa'; // Valor por defecto si no se proporciona
+    const videoId = urlParams.get('video') || 'VIDEO_ID'; // Valor por defecto si no se proporciona
+
+    // Actualizar el título y subtítulo
+    document.getElementById('hero-title').textContent = `Transforma tu negocio hoy, ${clientName}!`;
+    document.getElementById('hero-subtitle').textContent = `Llevemos la operación de ${companyName} al siguiente nivel`;
+
+    // Actualizar el video
+    document.getElementById('hero-video').src = `https://www.youtube.com/embed/${videoId}`;
+
+    // Funcionalidad del header al hacer scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    let processes = [];
+    document.getElementById('add-process').addEventListener('click', function() {
+      const name = document.getElementById('process-name').value;
+      const type = document.getElementById('process-type').value;
+      const hoursDailyPerPerson = parseFloat(document.getElementById('hours').value);
+      const cost = parseFloat(document.getElementById('cost').value);
+      const people = parseInt(document.getElementById('people').value);
+      const exceptions = parseInt(document.getElementById('exceptions').value);
+      const error = parseFloat(document.getElementById('error').value);
+      const systems = Array.from(document.querySelectorAll('input[name="systems"]:checked')).map(cb => cb.value);
+
+      if (!name || isNaN(hoursDailyPerPerson) || isNaN(cost) || isNaN(people) || isNaN(exceptions) || isNaN(error) || hoursDailyPerPerson <= 0 || cost <= 0 || people <= 0 || exceptions < 0 || error < 0 || systems.length === 0) {
+        alert('Por favor, complete todos los campos con valores válidos y seleccione al menos un sistema.');
+        return;
+      }
+
+      const totalDailyHours = hoursDailyPerPerson * people;
+      const monthlyHours = totalDailyHours * 22;
+      const monthlyCost = monthlyHours * cost;
+      const annualCost = monthlyCost * 12;
+      const errorCost = annualCost * (error / 100);
+      const exceptionCost = exceptions * 12 * 5;
+      const efficiencyGain = 0.85;
+      const annualHoursSaved = monthlyHours * 12 * efficiencyGain;
+      const annualCostSaved = (annualCost * efficiencyGain) + errorCost - exceptionCost;
+
+      const complexity = ((systems.length - 1) / 7) * 0.6 + (exceptions / 10) * 0.3 + (error / 100) * 0.1;
+      const impact = annualCostSaved / 250000;
+
+      processes.push({ name, type, hoursDailyPerPerson, cost, people, exceptions, error, systems, annualCostSaved, annualHoursSaved, complexity, impact });
+
+      const processList = document.getElementById('process-list');
+      processList.innerHTML = processes.length === 0 ? 'Añade un proceso para comenzar.' : processes.map(p => `
+        <div>
+          <strong>${p.name}</strong> - Ahorro anual: $${p.annualCostSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} | ${p.annualHoursSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} horas
+        </div>
+      `).join('');
+
+      const dotsContainer = document.getElementById('dots');
+      dotsContainer.innerHTML = processes.map((p, i) => {
+        const x = Math.min(380, Math.max(10, p.complexity * 380));
+        const y = Math.min(380, Math.max(10, (1 - p.impact) * 380));
+        const tooltip = `${p.name}: $${p.annualCostSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} | ${p.annualHoursSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} horas`;
+        const icons = [
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ff4d4d"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>',
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4d94ff"><path d="M12 2l-2.5 7.5H2l6 4.5-2.5 7.5 6.5-5 6.5 5-2.5-7.5 6-4.5h-7.5L12 2z"/></svg>',
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8a2be2"><circle cx="12" cy="12" r="10"/></svg>'
+        ];
+        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+        const nearLeft = x < 50 ? 'near-left' : '';
+        const nearRight = x > 330 ? 'near-right' : '';
+        const nearTop = y < 50 ? 'near-top' : '';
+        return `<div class="process-dot ${nearLeft} ${nearRight} ${nearTop}" style="left:${x}px; top:${y}px;" data-tooltip="${tooltip}">${randomIcon}</div>`;
+      }).join('');
+
+      const latestProcess = processes[processes.length - 1];
+      const quadrantMessage = document.getElementById('quadrant-message');
+      let message = '';
+      if (latestProcess.impact > 0.5 && latestProcess.complexity < 0.5) {
+        message = `${latestProcess.name} se encuentra en Cometa: Impacto rápido, recomendable hacerlo ya.`;
+      } else if (latestProcess.impact > 0.5 && latestProcess.complexity >= 0.5) {
+        message = `${latestProcess.name} se encuentra en Nebulosa: Proceso difuso, se llegará en algún momento.`;
+      } else if (latestProcess.impact <= 0.5 && latestProcess.complexity < 0.5) {
+        message = `${latestProcess.name} se encuentra en Planeta Enano: Baja complejidad y bajo impacto.`;
+      } else {
+        message = `${latestProcess.name} se encuentra en Asteroide: No automatizar.`;
+      }
+      quadrantMessage.textContent = message;
+      quadrantMessage.style.display = 'block';
+      setTimeout(() => {
+        quadrantMessage.style.display = 'none';
+      }, 5000);
+
+      document.getElementById('roi-form').reset();
+    });
+  </script>
+</body>
+</html>
