@@ -298,11 +298,10 @@
     }
     .quadrant-wrapper {
       position: relative;
-      width: 450px;
-      height: 450px;
+      width: 400px;
+      height: 400px;
       margin: 60px auto;
-      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-      padding: 20px;
+      padding: 0;
     }
     .quadrant-container {
       position: relative;
@@ -311,7 +310,6 @@
       margin: 0 auto;
       background: linear-gradient(135deg, #0f172a, #1e293b);
       border: 2px solid;
-      border-image: linear-gradient(135deg, #FFD700, #A6192E) 1;
       border-radius: 16px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2);
       overflow: visible;
@@ -546,13 +544,11 @@
       transform: translateY(-5px);
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     }
-    .review-card img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
+    .review-card .client-logo {
+      width: 100px;
+      height: 60px;
       margin-bottom: 20px;
-      border: 3px solid #FFD700;
-      object-fit: cover;
+      object-fit: contain;
     }
     .review-card h3 {
       font-size: 1.3em;
@@ -638,6 +634,7 @@
       .form-group.full-width { grid-column: span 1; }
       .reviews-carousel { gap: 15px; }
       .review-card { width: 250px; }
+      .review-card .client-logo { width: 80px; height: 50px; }
       .quadrant-wrapper { width: 350px; height: 350px; }
       .quadrant-container { width: 300px; height: 300px; }
       .quadrant-label { font-size: 1em; padding: 10px; }
@@ -845,7 +842,7 @@
       <h2>Lo que Dicen Nuestros Clientes</h2>
       <div class="reviews-carousel">
         <div class="review-card" data-aos="fade-up" data-aos-delay="100">
-          <img src="https://picsum.photos/80" alt="Cecilia">
+          <img src="https://www.apropellets.com/wp-content/uploads/2020/07/Garcia-Varona-logo-apropellets-v1.png" alt="Maderas García Varona" class="client-logo">
           <h3>Cecilia - Maderas García Varona</h3>
           <div class="industry">Sector Maderero</div>
           <div class="process">Proceso: Entrada de facturas</div>
@@ -859,7 +856,7 @@
           <p>"Resultados impresionantes en poco tiempo."</p>
         </div>
         <div class="review-card" data-aos="fade-up" data-aos-delay="200">
-          <img src="https://picsum.photos/80" alt="Rocío">
+          <img src="https://www.polinetmoi.com/img/logo-1708487737.jpg" alt="Polín et Moi" class="client-logo">
           <h3>Rocío - Polín et Moi</h3>
           <div class="industry">Sector E-commerce</div>
           <div class="process">Proceso: Devoluciones</div>
@@ -873,7 +870,7 @@
           <p>"Rocketbot transformó nuestra eficiencia operativa."</p>
         </div>
         <div class="review-card" data-aos="fade-up" data-aos-delay="300">
-          <img src="https://picsum.photos/80" alt="Ana">
+          <img src="https://dapeal.com/wp-content/uploads/sites/98/2020/03/logo-transparente-e1654165449361.png" alt="DAPEAL" class="client-logo">
           <h3>Ana - DAPEAL</h3>
           <div class="industry">Sector Logística</div>
           <div class="process">Proceso: Gestión de envíos</div>
@@ -887,7 +884,7 @@
           <p>"Automatización sin complicaciones."</p>
         </div>
         <div class="review-card" data-aos="fade-up" data-aos-delay="400">
-          <img src="https://picsum.photos/80" alt="Luis">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYOYvVUohon__kD290wM8QLsClk5WyZ9aAeA&s" alt="Comismar" class="client-logo">
           <h3>Luis - Comismar</h3>
           <div class="industry">Sector Seguros</div>
           <div class="process">Proceso: Procesamiento de pólizas</div>
@@ -981,7 +978,7 @@
       }
       processList.innerHTML = processes.map((process, index) => `
         <div>
-          <strong>Proceso ${index + 1}:</strong> ${process.name} (${process.type}) - Ahorro: ${process.hoursSavedPerDay.toFixed(2)} hrs/día, $${process.monthlySavings.toFixed(2)}/mes
+          <strong>Proceso ${index + 1}:</strong> ${process.name} (${process.type}) - Ahorro: $${process.monthlySavings.toFixed(2)}/mes
         </div>
       `).join('');
     }
@@ -1002,7 +999,7 @@
         dot.style.background = colors[index % colors.length];
         dot.style.left = `${Math.min(Math.max(x, 10), 390)}px`;
         dot.style.top = `${Math.min(Math.max(y, 10), 390)}px`;
-        dot.setAttribute('data-tooltip', `${process.name}: ${process.hoursSavedPerDay.toFixed(2)} hrs/día, $${process.monthlySavings.toFixed(2)}/mes`);
+        dot.setAttribute('data-tooltip', `${process.name}: $${process.monthlySavings.toFixed(2)}/mes`);
 
         if (x < 200) dot.classList.add('near-left');
         if (x > 300) dot.classList.add('near-right');
@@ -1011,7 +1008,7 @@
         dotsContainer.appendChild(dot);
 
         if (process.complexity < 0.5 && process.impact > 0.5) {
-          quadrantMessage.textContent = `¡${process.name} es un Cometa! Automatízalo ya para ahorrar ${process.hoursSavedPerDay.toFixed(2)} hrs/día y $${process.monthlySavings.toFixed(2)}/mes.`;
+          quadrantMessage.textContent = `¡${process.name} es un Cometa! Automatízalo ya para ahorrar $${process.monthlySavings.toFixed(2)}/mes.`;
           quadrantMessage.style.display = 'block';
         }
       });
