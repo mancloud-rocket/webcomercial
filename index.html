@@ -274,6 +274,8 @@
       background: #f9f9f9;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: visible;
     }
     .results-container h3 {
       font-size: 1.8em;
@@ -294,32 +296,44 @@
     .process-list div:hover {
       background-color: #f0f0f0;
     }
+    .quadrant-wrapper {
+      position: relative;
+      width: 450px;
+      height: 450px;
+      margin: 60px auto;
+      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+      padding: 20px;
+    }
     .quadrant-container {
       position: relative;
       width: 400px;
       height: 400px;
-      margin: 60px auto;
-      background: #1a1a2e; /* Fondo más oscuro y uniforme */
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      margin: 0 auto;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 2px solid;
+      border-image: linear-gradient(135deg, #FFD700, #A6192E) 1;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2);
+      overflow: visible;
     }
     .quadrant-container::before,
     .quadrant-container::after {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle, #ccc 20%, transparent 70%);
-      border-radius: 50%;
-      opacity: 0.3;
-    }
-    .quadrant-container::before {
-      top: 10px;
-      left: 10px;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.3), transparent);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
     }
     .quadrant-container::after {
-      bottom: 10px;
-      right: 10px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.3), transparent);
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
     }
     .quadrant {
       position: absolute;
@@ -328,81 +342,94 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      gap: 2px;
+      gap: 8px;
+      padding: 8px;
     }
     .quadrant-label {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 0.9em;
-      color: #ffffff; /* Texto blanco puro */
-      opacity: 0.9;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #ffffff;
       text-align: center;
-      border-radius: 8px;
-      margin: 4px;
-      padding: 10px;
+      border-radius: 12px;
+      padding: 16px;
       position: relative;
       z-index: 1;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .quadrant-label:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      background: rgba(255, 255, 255, 0.1);
     }
     .quadrant-label:nth-child(1) { /* Cometa */
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><path d="M0 50 L50 0" stroke="%234d94ff" stroke-width="0.5" fill="none"/></svg>'), rgba(255, 255, 255, 0.05);
-      background-repeat: repeat;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(15, 23, 42, 0.6));
     }
     .quadrant-label:nth-child(2) { /* Nebulosa */
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><circle cx="25" cy="25" r="5" fill="%2324243e"/></svg>'), rgba(255, 255, 255, 0.05);
-      background-repeat: repeat;
+      background: linear-gradient(135deg, rgba(76, 29, 149, 0.8), rgba(15, 23, 42, 0.6));
     }
     .quadrant-label:nth-child(3) { /* Planeta Enano */
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><circle cx="25" cy="25" r="1" fill="%23666A6D"/></svg>'), rgba(255, 255, 255, 0.05);
-      background-repeat: repeat;
+      background: linear-gradient(135deg, rgba(55, 65, 81, 0.8), rgba(15, 23, 42, 0.6));
     }
     .quadrant-label:nth-child(4) { /* Asteroide */
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" opacity="0.1"><path d="M0 0 L50 50" stroke="%231a1a2e" stroke-width="0.5" fill="none"/></svg>'), rgba(255, 255, 255, 0.05);
-      background-repeat: repeat;
+      background: linear-gradient(135deg, rgba(31, 41, 55, 0.8), rgba(15, 23, 42, 0.6));
     }
     .quadrant-description {
-      font-size: 0.7em;
-      opacity: 0.8;
-      margin-top: 5px;
+      font-size: 0.85em;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-top: 8px;
+      line-height: 1.2;
     }
     .axis-label-y.top, .axis-label-y.bottom {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      color: #ffffff; /* Texto blanco puro */
       font-weight: 700;
       font-size: 1.1em;
       text-transform: uppercase;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
-      padding: 5px 10px;
+      color: #FFD700;
+      background: rgba(35, 31, 32, 0.7);
+      border-radius: 5px;
+      padding: 8px 16px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      z-index: 5;
     }
     .axis-label-y.top {
-      top: -40px;
+      top: -60px;
     }
     .axis-label-y.bottom {
-      bottom: -40px;
+      bottom: -60px;
     }
     .axis-label-x.left, .axis-label-x.right {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      color: #ffffff; /* Texto blanco puro */
       font-weight: 700;
       font-size: 1.1em;
       text-transform: uppercase;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
-      padding: 5px 10px;
-      max-width: 120px;
+      color: #FFD700;
+      background: rgba(35, 31, 32, 0.7);
+      border-radius: 5px;
+      padding: 8px 16px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      max-width: 150px;
+      z-index: 5;
     }
     .axis-label-x.left {
-      left: -40%; /* Ajustado para evitar solapamiento */
-      text-align: right;
+      left: -180px;
+      text-align: center;
     }
     .axis-label-x.right {
-      right: -40%; /* Ajustado para evitar solapamiento */
-      text-align: left;
+      right: -180px;
+      text-align: center;
     }
     .dots-container {
       position: absolute;
@@ -412,14 +439,18 @@
     }
     .process-dot {
       position: absolute;
-      width: 30px;
-      height: 30px;
+      width: 16px;
+      height: 16px;
       cursor: pointer;
-      transition: transform 0.2s ease;
-      filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.3));
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: pulse 2s infinite ease-in-out;
+      filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
     }
     .process-dot:hover {
-      transform: scale(1.2);
+      transform: scale(1.3);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
     }
     .process-dot:hover::after {
       content: attr(data-tooltip);
@@ -607,21 +638,19 @@
       .form-group.full-width { grid-column: span 1; }
       .reviews-carousel { gap: 15px; }
       .review-card { width: 250px; }
+      .quadrant-wrapper { width: 350px; height: 350px; }
       .quadrant-container { width: 300px; height: 300px; }
-      .axis-label-x.left { left: -50%; } /* Ajustado para pantallas pequeñas */
-      .axis-label-x.right { right: -50%; } /* Ajustado para pantallas pequeñas */
-      .axis-label-y.top { top: -30px; }
-      .axis-label-y.bottom { bottom: -30px; }
+      .quadrant-label { font-size: 1em; padding: 10px; }
+      .quadrant-description { font-size: 0.75em; margin-top: 6px; }
+      .axis-label-x.left { left: -140px; font-size: 0.9em; }
+      .axis-label-x.right { right: -140px; font-size: 0.9em; }
+      .axis-label-y.top { top: -50px; font-size: 0.9em; }
+      .axis-label-y.bottom { bottom: -50px; font-size: 0.9em; }
+      .process-dot { width: 12px; height: 12px; }
     }
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -630,6 +659,11 @@
     @keyframes fadeOut {
       from { opacity: 1; }
       to { opacity: 0; }
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(255, 215, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5); }
     }
   </style>
 </head>
@@ -776,30 +810,32 @@
         <h3>Procesos Analizados</h3>
         <div id="process-list">Añade un proceso para comenzar.</div>
         <div id="quadrant-message" class="quadrant-message"></div>
-        <div class="quadrant-container">
-          <div class="quadrant">
-            <div class="quadrant-label">
-              Cometa
-              <span class="quadrant-description">Alto impacto, Baja complejidad</span>
+        <div class="quadrant-wrapper">
+          <div class="quadrant-container">
+            <div class="quadrant">
+              <div class="quadrant-label">
+                Cometa
+                <span class="quadrant-description">Alto impacto, Baja complejidad</span>
+              </div>
+              <div class="quadrant-label">
+                Nebulosa
+                <span class="quadrant-description">Alto impacto, Alta complejidad</span>
+              </div>
+              <div class="quadrant-label">
+                Planeta Enano
+                <span class="quadrant-description">Bajo impacto, Baja complejidad</span>
+              </div>
+              <div class="quadrant-label">
+                Asteroide
+                <span class="quadrant-description">Bajo impacto, Alta complejidad</span>
+              </div>
             </div>
-            <div class="quadrant-label">
-              Nebulosa
-              <span class="quadrant-description">Alto impacto, Alta complejidad</span>
-            </div>
-            <div class="quadrant-label">
-              Planeta Enano
-              <span class="quadrant-description">Bajo impacto, Baja complejidad</span>
-            </div>
-            <div class="quadrant-label">
-              Asteroide
-              <span class="quadrant-description">Bajo impacto, Alta complejidad</span>
-            </div>
+            <div class="axis-label-y top">Mayor Impacto</div>
+            <div class="axis-label-y bottom">Menor Impacto</div>
+            <div class="axis-label-x left">Menos Complejo</div>
+            <div class="axis-label-x right">Más Complejo</div>
+            <div id="dots" class="dots-container"></div>
           </div>
-          <div class="axis-label-y top">Mayor Impacto</div>
-          <div class="axis-label-y bottom">Menor Impacto</div>
-          <div class="axis-label-x left">Más Sencillo</div>
-          <div class="axis-label-x right">Más Complejo</div>
-          <div id="dots" class="dots-container"></div>
         </div>
       </div>
     </div>
@@ -889,18 +925,14 @@
 
     // Personalización basada en parámetros de la URL
     const urlParams = new URLSearchParams(window.location.search);
-    const clientName = urlParams.get('name') || 'Cliente'; // Valor por defecto si no se proporciona
-    const companyName = urlParams.get('company') || 'tu empresa'; // Valor por defecto si no se proporciona
-    const videoId = urlParams.get('video') || 'VIDEO_ID'; // Valor por defecto si no se proporciona
+    const clientName = urlParams.get('name') || 'Cliente';
+    const companyName = urlParams.get('company') || 'tu empresa';
+    const videoId = urlParams.get('video') || 'VIDEO_ID';
 
-    // Actualizar el título y subtítulo
     document.getElementById('hero-title').textContent = `Transforma tu negocio hoy, ${clientName}!`;
     document.getElementById('hero-subtitle').textContent = `Llevemos la operación de ${companyName} al siguiente nivel`;
-
-    // Actualizar el video
     document.getElementById('hero-video').src = `https://www.youtube.com/embed/${videoId}`;
 
-    // Funcionalidad del header al hacer scroll
     window.addEventListener('scroll', () => {
       const header = document.querySelector('header');
       if (window.scrollY > 50) header.classList.add('scrolled');
@@ -920,73 +952,70 @@
       const people = parseInt(document.getElementById('people').value);
       const exceptions = parseInt(document.getElementById('exceptions').value);
       const error = parseFloat(document.getElementById('error').value);
-      const systems = Array.from(document.querySelectorAll('input[name="systems"]:checked')).map(cb => cb.value);
+      const systems = Array.from(document.querySelectorAll('input[name="systems"]:checked')).map(input => input.value);
 
-      if (!name || isNaN(hoursDailyPerPerson) || isNaN(cost) || isNaN(people) || isNaN(exceptions) || isNaN(error) || hoursDailyPerPerson <= 0 || cost <= 0 || people <= 0 || exceptions < 0 || error < 0 || systems.length === 0) {
-        alert('Por favor, complete todos los campos con valores válidos y seleccione al menos un sistema.');
+      if (!name || !hoursDailyPerPerson || !cost || !people || !exceptions || !error || systems.length === 0) {
+        alert('Por favor, completa todos los campos.');
         return;
       }
 
-      const totalDailyHours = hoursDailyPerPerson * people;
-      const monthlyHours = totalDailyHours * 22;
-      const monthlyCost = monthlyHours * cost;
-      const annualCost = monthlyCost * 12;
-      const errorCost = annualCost * (error / 100);
-      const exceptionCost = exceptions * 12 * 5;
-      const efficiencyGain = 0.85;
-      const annualHoursSaved = monthlyHours * 12 * efficiencyGain;
-      const annualCostSaved = (annualCost * efficiencyGain) + errorCost - exceptionCost;
+      const hoursSavedPerDay = hoursDailyPerPerson * (1 - error / 100);
+      const monthlySavings = hoursSavedPerDay * cost * people * 20;
+      const complexity = (systems.length * 10 + exceptions * 5) / 100;
+      const impact = monthlySavings / 1000;
 
-      const complexity = ((systems.length - 1) / 7) * 0.6 + (exceptions / 10) * 0.3 + (error / 100) * 0.1;
-      const impact = annualCostSaved / 250000;
+      const process = { name, type, hoursSavedPerDay, monthlySavings, complexity, impact, systems };
+      processes.push(process);
 
-      processes.push({ name, type, hoursDailyPerPerson, cost, people, exceptions, error, systems, annualCostSaved, annualHoursSaved, complexity, impact });
+      updateProcessList();
+      updateQuadrant();
+      document.getElementById('roi-form').reset();
+      document.querySelectorAll('.system-card .check-icon').forEach(icon => icon.style.opacity = '0');
+    });
 
+    function updateProcessList() {
       const processList = document.getElementById('process-list');
-      processList.innerHTML = processes.length === 0 ? 'Añade un proceso para comenzar.' : processes.map(p => `
+      if (processes.length === 0) {
+        processList.innerHTML = 'Añade un proceso para comenzar.';
+        return;
+      }
+      processList.innerHTML = processes.map((process, index) => `
         <div>
-          <strong>${p.name}</strong> - Ahorro anual: $${p.annualCostSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} | ${p.annualHoursSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} horas
+          <strong>Proceso ${index + 1}:</strong> ${process.name} (${process.type}) - Ahorro: ${process.hoursSavedPerDay.toFixed(2)} hrs/día, $${process.monthlySavings.toFixed(2)}/mes
         </div>
       `).join('');
+    }
 
+    function updateQuadrant() {
       const dotsContainer = document.getElementById('dots');
-      dotsContainer.innerHTML = processes.map((p, i) => {
-        const x = Math.min(380, Math.max(10, p.complexity * 380));
-        const y = Math.min(380, Math.max(10, (1 - p.impact) * 380));
-        const tooltip = `${p.name}: $${p.annualCostSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} | ${p.annualHoursSaved.toLocaleString(undefined, {maximumFractionDigits: 2})} horas`;
-        const icons = [
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ff4d4d"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>',
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4d94ff"><path d="M12 2l-2.5 7.5H2l6 4.5-2.5 7.5 6.5-5 6.5 5-2.5-7.5 6-4.5h-7.5L12 2z"/></svg>',
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8a2be2"><circle cx="12" cy="12" r="10"/></svg>'
-        ];
-        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-        const nearLeft = x < 50 ? 'near-left' : '';
-        const nearRight = x > 330 ? 'near-right' : '';
-        const nearTop = y < 50 ? 'near-top' : '';
-        return `<div class="process-dot ${nearLeft} ${nearRight} ${nearTop}" style="left:${x}px; top:${y}px;" data-tooltip="${tooltip}">${randomIcon}</div>`;
-      }).join('');
-
-      const latestProcess = processes[processes.length - 1];
+      dotsContainer.innerHTML = '';
       const quadrantMessage = document.getElementById('quadrant-message');
-      let message = '';
-      if (latestProcess.impact > 0.5 && latestProcess.complexity < 0.5) {
-        message = `${latestProcess.name} se encuentra en Cometa: Impacto rápido, recomendable hacerlo ya.`;
-      } else if (latestProcess.impact > 0.5 && latestProcess.complexity >= 0.5) {
-        message = `${latestProcess.name} se encuentra en Nebulosa: Proceso difuso, se llegará en algún momento.`;
-      } else if (latestProcess.impact <= 0.5 && latestProcess.complexity < 0.5) {
-        message = `${latestProcess.name} se encuentra en Planeta Enano: Baja complejidad y bajo impacto.`;
-      } else {
-        message = `${latestProcess.name} se encuentra en Asteroide: No automatizar.`;
-      }
-      quadrantMessage.textContent = message;
-      quadrantMessage.style.display = 'block';
-      setTimeout(() => {
-        quadrantMessage.style.display = 'none';
-      }, 5000);
+      quadrantMessage.style.display = 'none';
 
-      document.getElementById('roi-form').reset();
-    });
+      processes.forEach((process, index) => {
+        const x = (process.complexity * 200) + 100;
+        const y = 400 - (process.impact * 200) - 100;
+
+        const dot = document.createElement('div');
+        dot.className = 'process-dot';
+        const colors = ['#ff4d4d', '#ffd700', '#4d94ff', '#8a2be2'];
+        dot.style.background = colors[index % colors.length];
+        dot.style.left = `${Math.min(Math.max(x, 10), 390)}px`;
+        dot.style.top = `${Math.min(Math.max(y, 10), 390)}px`;
+        dot.setAttribute('data-tooltip', `${process.name}: ${process.hoursSavedPerDay.toFixed(2)} hrs/día, $${process.monthlySavings.toFixed(2)}/mes`);
+
+        if (x < 200) dot.classList.add('near-left');
+        if (x > 300) dot.classList.add('near-right');
+        if (y < 100) dot.classList.add('near-top');
+
+        dotsContainer.appendChild(dot);
+
+        if (process.complexity < 0.5 && process.impact > 0.5) {
+          quadrantMessage.textContent = `¡${process.name} es un Cometa! Automatízalo ya para ahorrar ${process.hoursSavedPerDay.toFixed(2)} hrs/día y $${process.monthlySavings.toFixed(2)}/mes.`;
+          quadrantMessage.style.display = 'block';
+        }
+      });
+    }
   </script>
 </body>
 </html>
